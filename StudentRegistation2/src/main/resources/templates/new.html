@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Student Fees Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cosmo/bootstrap.min.css"/>
+    <!-- Include the full version of jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            background-image: url('/images/college_image.jpeg');
+            opacity: 0.9;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #007bff;
+        }
+
+        label {
+            font-weight: bold;
+            color: #495057;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $("form").submit(function (event) {
+                var studentName = $("#studentName").val();
+                var course = $("#course").val();
+                var fee = $("#fee").val();
+
+                if (studentName.trim() === '' || course.trim() === '' || fee.trim() === '') {
+                    alert("All fields must be filled out");
+                    event.preventDefault(); // Prevent form submission
+                } else {
+                    // Assuming the form submission is successful, show a success message.
+                    $("#successMessage").html("<div class='alert alert-success'>Payment successful!</div>");
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="text-center">
+        <h1 style="color: black;"><strong>Student Fees Form</strong></h1>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-sm-6">
+            <form th:action="@{/save}" th:object="${student}" method="post">
+                <div class="form-group">
+                    <label for="studentName">Student Name</label>
+                    <input type="hidden" th:field="*{id}"/>
+                    <input type="text" th:field="*{studentname}" class="form-control" id="studentName" placeholder="Enter Student Name" required/>
+                </div>
+                <div class="form-group">
+                    <label for="course">Course</label>
+                    <input type="text" th:field="*{course}" class="form-control" id="course" placeholder="Enter Course" required/>
+                </div>
+                <div class="form-group">
+                    <label for="fee">Fee</label>
+                    <input type="text" th:field="*{fee}" class="form-control" id="fee" placeholder="Enter Fee" required/>
+                </div>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+            <!-- Display success message here -->
+            <div id="successMessage"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

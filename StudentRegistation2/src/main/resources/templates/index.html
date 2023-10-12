@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Student Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cosmo/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        body {
+            background-color: white;
+            font-family: 'Arial', sans-serif;
+        }
+
+        h2 {
+            color: #343a40;
+            text-align: center; 
+        }
+
+        th, td {
+            text-align: center;
+        }
+
+        .table {
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+
+        .thead-dark th {
+            background-color: #343a40;
+            color: #ffffff;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .edit-link, .delete-link {
+            display: inline-block;
+            margin-right: 10px;
+            color: #3080d6;
+        }
+
+        .edit-link:hover, .delete-link:hover {
+            text-decoration: none;
+        }
+
+        .add-button {
+            margin-top: 20px;
+        }
+
+        .search-bar {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .search-input {
+            width: 300px;
+            margin-right: 10px;
+        }
+
+        .search-button {
+            width: 100px;
+        }
+    </style>
+</head>
+<body style="background-image: url('/images/college_image.jpeg'); opacity: 0.9; background-size: cover; background-repeat: no-repeat;">
+    <div>
+        <br><br>
+       <h1 style="text-align: center;">STUDENT LIST</h1>
+        <div class="search-bar">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search by Name">
+            <button onclick="searchByName()" class="btn btn-primary search-button">Search</button>
+        </div>
+        <div class="col-sm-5 mx-auto" align="center">
+            <div class="panel-body" align="center">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Student Name</th>
+                            <th>Course</th>
+                            <th>Fee</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody style="background-color: white;">
+                        <tr th:each="student: ${liststudent}">
+                            <td th:text="${student.id}">Student ID</td>
+                            <td th:text="${student.studentname}">Student Name</td>
+                            <td th:text="${student.course}">Course</td>
+                            <td th:text="${student.fee}">Fee</td>
+                            <td>
+                                <a th:href="@{'/edit/'+${student.id}}" class="edit-link">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                            </td>
+                            <td>
+                                <a th:href="@{'/delete/'+${student.id}}" class="delete-link">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="add-button">
+                    <a th:href="@{'/new'}" class="btn btn-primary">Add New Student</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function searchByName() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.querySelector(".table");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1]; // Assuming the student name is in the second column
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
